@@ -1,0 +1,27 @@
+name: Daily Screenshot Task
+
+on:
+  schedule:
+    - cron: "30 4 * * *"  # Runs every day at 4 AM UTC
+  workflow_dispatch:  # Allows manual execution
+
+jobs:
+  capture_and_send:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set Up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+
+      - name: Install Dependencies
+        run: pip install selenium webdriver-manager requests
+
+      - name: Run Screenshot Script
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python screenshot.py
