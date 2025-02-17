@@ -11,7 +11,7 @@ TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
 
 # URL to capture
-URL = "https://github.com/deepak2461/dsc"
+URL = "https://www.goodreturns.in/gold-rates/visakhapatnam.html"
 
 def take_screenshot():
     options = Options()
