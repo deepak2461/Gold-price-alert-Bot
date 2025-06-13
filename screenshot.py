@@ -8,8 +8,8 @@ from webdriver_manager.chrome import ChromeDriverManager
 
 # Telegram bot credentials (set in GitHub Secrets)
 TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
-TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
-
+TELEGRAM_CHAT_IDS_STR = os.getenv("TELEGRAM_CHAT_IDS", "")
+TELEGRAM_CHAT_IDs = [cid.strip() for cid in TELEGRAM_CHAT_IDS_STR.split(",") if cid.strip()]
 # URL to capture
 URL = "https://www.goodreturns.in/gold-rates/visakhapatnam.html"
 SCROLL_TO_ELEMENT = "//h2[contains(text(),'Gold Rate in Visakhapatnam for Last 10 Days')]"  
@@ -41,12 +41,24 @@ def take_screenshot():
     driver.quit()
     return screenshot_path
 
+# -====== For single Chat_ID -============
+# def send_to_telegram(image_path):
+#     with open(image_path, "rb") as file:
+#         url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendPhoto"
+#         data = {"chat_id": TELEGRAM_CHAT_ID, "caption": "Daily Screenshot"}
+#         files = {"photo": file}
+#         response = requests.post(url, data=data, files=files)
+#     return response.json()
+
+#======== For multiple chat_ids ========
 def send_to_telegram(image_path):
-    with open(image_path, "rb") as file:
-        url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendPhoto"
-        data = {"chat_id": TELEGRAM_CHAT_ID, "caption": "Daily Screenshot"}
-        files = {"photo": file}
-        response = requests.post(url, data=data, files=files)
+    for chat_id in TELEGRAM_CHAT_IDs:
+        with open(image_path, "rb") as file:
+            url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendPhoto"
+            data = {"chat_id": chat_id, "caption": "Daily Screenshot"}
+            files = {"photo": file}
+            response = requests.post(url, data=data, files=files)
+            #print(f"Sent to {chat_id}: {response.status_code}")
     return response.json()
 
 if __name__ == "__main__":
