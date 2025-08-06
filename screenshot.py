@@ -8,8 +8,9 @@ from webdriver_manager.chrome import ChromeDriverManager
 
 # Telegram bot credentials (set in GitHub Secrets)
 TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
-TELEGRAM_CHAT_IDS_STR = os.getenv("TELEGRAM_CHAT_IDS", "")
-TELEGRAM_CHAT_IDs = [cid.strip() for cid in TELEGRAM_CHAT_IDS_STR.split(",") if cid.strip()]
+TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
+#TELEGRAM_CHAT_IDS_STR = os.getenv("TELEGRAM_CHAT_IDS", "") # used for multi-chatid
+#TELEGRAM_CHAT_IDs = [cid.strip() for cid in TELEGRAM_CHAT_IDS_STR.split(",") if cid.strip()]  # used for multi-chatid
 # URL to capture
 URL = "https://www.goodreturns.in/gold-rates/visakhapatnam.html"
 SCROLL_TO_ELEMENT = "//h2[contains(text(),'Gold Rate in Visakhapatnam for Last 10 Days')]"  
