@@ -42,24 +42,24 @@ def take_screenshot():
     return screenshot_path
 
 # -====== For single Chat_ID -============
-def send_to_telegram(image_path):
-    with open(image_path, "rb") as file:
-        url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendPhoto"
-        data = {"chat_id": TELEGRAM_CHAT_ID, "caption": "Daily Screenshot"}
-        files = {"photo": file}
-        response = requests.post(url, data=data, files=files)
-    return response.json()
+# def send_to_telegram(image_path):
+#     with open(image_path, "rb") as file:
+#         url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendPhoto"
+#         data = {"chat_id": TELEGRAM_CHAT_ID, "caption": "Daily Screenshot"}
+#         files = {"photo": file}
+#         response = requests.post(url, data=data, files=files)
+#     return response.json()
 
 #======== For multiple chat_ids ========
-# def send_to_telegram(image_path):
-#     for chat_id in TELEGRAM_CHAT_IDs:
-#         with open(image_path, "rb") as file:
-#             url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendPhoto"
-#             data = {"chat_id": chat_id, "caption": "Daily Screenshot"}
-#             files = {"photo": file}
-#             response = requests.post(url, data=data, files=files)
-#             #print(f"Sent to {chat_id}: {response.status_code}")
-#     return response.json()
+def send_to_telegram(image_path):
+    for chat_id in TELEGRAM_CHAT_IDs:
+        with open(image_path, "rb") as file:
+            url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendPhoto"
+            data = {"chat_id": chat_id, "caption": "Daily Screenshot"}
+            files = {"photo": file}
+            response = requests.post(url, data=data, files=files)
+            #print(f"Sent to {chat_id}: {response.status_code}")
+    return response.json()
 
 if __name__ == "__main__":
     screenshot = take_screenshot()
